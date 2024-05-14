@@ -1,31 +1,29 @@
 package com.recommender.recommenderAlgorithm.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String userName;
     private String userSurname;
+    private String userName;
     private String userMiddleName;
     private String email;
 
     public User() {}
-    public User(Long id, String userName, String userSurname, String userMiddleName, String email) {
+    public User(Long id, String userSurname, String userName, String userMiddleName, String email) {
         this.id = id;
-        this.userName = userName;
         this.userSurname = userSurname;
+        this.userName = userName;
         this.userMiddleName = userMiddleName;
         this.email = email;
     }
-    public User(String userName, String userSurname, String userMiddleName, String email) {
-        this.userName = userName;
+    public User(String userSurname, String userName, String userMiddleName, String email) {
         this.userSurname = userSurname;
+        this.userName = userName;
         this.userMiddleName = userMiddleName;
         this.email = email;
     }
@@ -74,8 +72,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
                 ", userSurname='" + userSurname + '\'' +
+                ", userName='" + userName + '\'' +
                 ", userMiddleName='" + userMiddleName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
