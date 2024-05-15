@@ -17,4 +17,7 @@ public class SerialService {
     public List<Serial> getSerials(){
         return serialRepository.findAll();
     }
+    public Serial getById(Long id){
+        return serialRepository.findById(id).get();
+    }
 }
