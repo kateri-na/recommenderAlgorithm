@@ -10,7 +10,7 @@ import java.util.List;
 
 @Configuration
 public class UserConfig {
-    @Bean
+    @Bean("user")
     CommandLineRunner commandLineRunner(UserRepository repository){
         return args -> {
             User Maria = new User(
