@@ -17,4 +17,7 @@ public class LogService {
     public List<Log> getLog(){
         return logRepository.findAll();
     }
+    public List<Log> getWatchedLogs(){
+        return logRepository.findAllByEventEquals("просмотр серии");
+    }
 }
