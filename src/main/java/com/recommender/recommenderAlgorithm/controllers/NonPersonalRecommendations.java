@@ -1,4 +1,4 @@
-package com.recommender.recommenderAlgorithm.algorithm;
+package com.recommender.recommenderAlgorithm.controllers;
 
 import com.recommender.recommenderAlgorithm.models.Log;
 import com.recommender.recommenderAlgorithm.repositories.LogRepository;
