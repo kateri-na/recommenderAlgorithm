@@ -20,6 +20,7 @@ public class RatingsService {
     }
     public List<Ratings> getZeroRatings(){return ratingsRepository.findAllZeroRatings();}
     public List<Ratings> getAllUserRatings(Long userId){ return ratingsRepository.findAllByUserId(userId);}
+    public List<Ratings> getAllSerialRatings(Long serialId){return ratingsRepository.findAllBySerialId(serialId);}
     @Transactional
     public void updateRating(Long userId, Long serialID, Double value){
         Ratings ratings = ratingsRepository.findByUserIdAndSerialId(userId, serialID)
