@@ -43,6 +43,11 @@ public class LogConfig {
                     4,
                     "просмотр описания"
             );
+            Log log61 = new Log(
+                    1,
+                    4,
+                    "просмотр серии"
+            );
             Log log7 = new Log(
                     2,
                     9,
@@ -66,7 +71,12 @@ public class LogConfig {
             Log log11 = new Log(
                     3,
                     10,
-                    "просмотр описания"
+                    "просмотр серии"
+            );
+            Log log111 = new Log(
+                    3,
+                    10,
+                    "просмотр серии"
             );
             Log log12 = new Log(
                     3,
@@ -113,8 +123,8 @@ public class LogConfig {
                     5,
                     "просмотр серии"
             );
-            repository.saveAll(List.of(log1, log2, log3, log4, log5, log6, log7, log8, log9, log10,
-                    log11, log12, log13, log14, log15, log16, log17, log18, log19, log20));
+            repository.saveAll(List.of(log1, log2, log3, log4, log5, log6, log61, log7, log8, log9, log10,
+                    log11, log111, log12, log13, log14, log15, log16, log17, log18, log19, log20));
         };
     }
 }
