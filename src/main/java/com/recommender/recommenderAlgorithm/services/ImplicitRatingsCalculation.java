@@ -5,6 +5,8 @@ import com.recommender.recommenderAlgorithm.services.LogService;
 import com.recommender.recommenderAlgorithm.services.RatingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -59,9 +61,12 @@ public class ImplicitRatingsCalculation {
         return result;
     }
     private void normalizeRating(Map<Integer, Double> mapSerialRating){
-        Double max = Collections.max(mapSerialRating.values());
+        Double maxDefault = 3 * calculateRating("просмотр серии");
+        Double maxCalculate = Collections.max(mapSerialRating.values());
+        Double max = Double.max(maxDefault, maxCalculate);
         for(Map.Entry<Integer, Double> elem :mapSerialRating.entrySet()){
-            elem.setValue(10*(elem.getValue()/max));
+            double value = 10*(elem.getValue()/max);
+            elem.setValue(Math.round(value*100.0)/100.0);
         }
     }
 }
