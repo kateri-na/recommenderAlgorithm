@@ -15,9 +15,15 @@ public class PersonalRecommendationsController {
     public PersonalRecommendationsController(PersonalRecommendationsService personalRecommendationsService) {
         this.personalRecommendationsService = personalRecommendationsService;
     }
-    @GetMapping("/norm")
+    @GetMapping("/normalize")
     public ResponseEntity<Void> getRatings(){
         personalRecommendationsService.normalizeRatings();
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/similarity")
+    public ResponseEntity<Void> getRating(){
+        personalRecommendationsService.calculateSimilarity();
+        return ResponseEntity.noContent().build();
+    }
+
 }
