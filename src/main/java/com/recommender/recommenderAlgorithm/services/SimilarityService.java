@@ -21,4 +21,7 @@ public class SimilarityService {
         Similarities similarities = new Similarities(serialRowId, serialColumnId, similarity);
         similarityRepository.save(similarities);
     }
+     public List<Similarities> getNeighborhood(Long serialId, double similarityConstraint){
+        return similarityRepository.findAllGreaterThanConstraint(serialId,similarityConstraint);
+     }
 }
