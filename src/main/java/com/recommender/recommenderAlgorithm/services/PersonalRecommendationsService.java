@@ -1,9 +1,11 @@
 package com.recommender.recommenderAlgorithm.services;
 
 import com.recommender.recommenderAlgorithm.models.Ratings;
+import com.recommender.recommenderAlgorithm.models.Similarities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -17,6 +19,17 @@ public class PersonalRecommendationsService {
         this.ratingsService = ratingsService;
         this.userService = userService;
         this.similarityService = similarityService;
+    }
+    public List<Ratings> predictedRatings(){
+        List<Ratings> predictedRatings = new LinkedList<Ratings>();
+        List<Ratings> serialsWithoutRatings = ratingsService.getZeroRatings();
+        for (Ratings serialRating:serialsWithoutRatings){
+            List<Similarities> ratingNeighborhood = similarityService.getNeighborhood(serialRating.getSerialId(),
+                    0.5);
+            double predictedRating = regressionFormula(ratingNeighborhood, serialRating.getUserId(),serialRating.getSerialId());
+            predictedRatings.add(new Ratings(serialRating.getUserId(),serialRating.getSerialId(),predictedRating));
+        }
+        return predictedRatings;
     }
 
     public void calculateSimilarity(){
@@ -64,5 +77,25 @@ public class PersonalRecommendationsService {
             denominator2 += Math.pow(column2.get(i).getRatingValue(),2);
         }
         return numerator/(Math.sqrt(denominator1)*Math.sqrt(denominator2));
+    }
+    private double regressionFormula(List<Similarities> neighborhood, Long userId, Long predictedSerialId){
+        double average = calculateAverage(ratingsService.getAllUserRatings(userId.longValue()));
+        double numerator= 0.0;
+        double denominator = 0.0;
+        for(Similarities similarity : neighborhood){
+            Integer comparableSerialId = pairSimilarityMatrixId(similarity,predictedSerialId);
+            numerator += similarity.getSimilarity() * ratingsService.getCertainSerialRating(userId.longValue(),
+                    comparableSerialId.longValue()).getRatingValue();
+            denominator += similarity.getSimilarity();
+        }
+        return average + numerator/denominator;
+    }
+    private int pairSimilarityMatrixId(Similarities similarity, Long predictedSerialId){
+        if(similarity.getSerialRowId().equals(predictedSerialId.intValue())){
+            return similarity.getSerialColumnId();
+        }
+        else{
+            return similarity.getSerialRowId();
+        }
     }
 }
