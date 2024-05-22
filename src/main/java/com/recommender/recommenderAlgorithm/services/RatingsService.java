@@ -21,6 +21,10 @@ public class RatingsService {
     public List<Ratings> getZeroRatings(){return ratingsRepository.findAllZeroRatings();}
     public List<Ratings> getAllUserRatings(Long userId){ return ratingsRepository.findAllByUserId(userId);}
     public List<Ratings> getAllSerialRatings(Long serialId){return ratingsRepository.findAllBySerialId(serialId);}
+    public Ratings getCertainSerialRating(Long userId, Long serialId){
+        return ratingsRepository.findByUserIdAndSerialId(userId,serialId).orElseThrow(()-> new IllegalStateException
+            ("rating of "+userId+" user for serial "+serialId+" doesn't exist"));
+    }
     @Transactional
     public void updateRating(Long userId, Long serialID, Double value){
         Ratings ratings = ratingsRepository.findByUserIdAndSerialId(userId, serialID)
