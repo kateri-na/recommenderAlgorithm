@@ -24,7 +24,7 @@ public class PersonalRecommendationsService {
         this.similarityService = similarityService;
         this.normalizedRatingsService = normalizedRatingsService;
     }
-    public List<Ratings> predictedRatings(){
+    private List<Ratings> predictedRatings(){
         List<Ratings> predictedRatings = new LinkedList<Ratings>();
         List<Ratings> serialsWithoutRatings = ratingsService.getZeroRatings();
         for (Ratings serialRating:serialsWithoutRatings){
@@ -36,17 +36,17 @@ public class PersonalRecommendationsService {
         return predictedRatings;
     }
 
-    public void calculateSimilarity(){
+    private void calculateSimilarity(){
         for (Integer i=1; i<10; ++i){
             for(Integer j = i+1; j<=10; ++j) {
-                List<Ratings> column1 = ratingsService.getAllSerialRatings(i.longValue());
-                List<Ratings> column2 = ratingsService.getAllSerialRatings(j.longValue());
+                List<NormalizedRatings> column1 = normalizedRatingsService.getAllSerialRatings(i.longValue());
+                List<NormalizedRatings> column2 = normalizedRatingsService.getAllSerialRatings(j.longValue());
                 similarityService.addSimilarity(i, j, similarityFormula(column1, column2));
             }
         }
     }
 
-    public void normalizeRatings(){
+    private void normalizeRatings(){
         List<Integer> usersIds = userService.getUsersIds();
         double averageRating = 0.0;
         for(int i =0; i<usersIds.size(); ++i){
@@ -54,7 +54,6 @@ public class PersonalRecommendationsService {
             averageRating = calculateAverage(userRatings);
             for(Ratings rating :userRatings){
                 if(rating.getRatingValue() != 0) {
-                    //ratingsService.updateRating(rating.getUserId(), rating.getSerialId(),rating.getRatingValue() - averageRating);
                     normalizedRatingsService.addNormalizedRating(rating.getUserId(), rating.getSerialId(),
                             rating.getRatingValue() - averageRating);
                 }
@@ -75,7 +74,7 @@ public class PersonalRecommendationsService {
         }
         return result/count;
     }
-    private double similarityFormula(List<Ratings> column1, List<Ratings> column2){
+    private double similarityFormula(List<NormalizedRatings> column1, List<NormalizedRatings> column2){
         double numerator = 0.0;
         double denominator1 = 0.0;
         double denominator2 = 0.0;
@@ -92,7 +91,7 @@ public class PersonalRecommendationsService {
         double denominator = 0.0;
         for(Similarities similarity : neighborhood){
             Integer comparableSerialId = pairSimilarityMatrixId(similarity,predictedSerialId);
-            numerator += similarity.getSimilarity() * ratingsService.getCertainSerialRating(userId.longValue(),
+            numerator += similarity.getSimilarity() * normalizedRatingsService.getCertainSerialRating(userId.longValue(),
                     comparableSerialId.longValue()).getRatingValue();
             denominator += similarity.getSimilarity();
         }
@@ -105,5 +104,10 @@ public class PersonalRecommendationsService {
         else{
             return similarity.getSerialRowId();
         }
+    }
+    public List<Ratings> algorithm(){
+        normalizeRatings();
+        calculateSimilarity();
+        return predictedRatings();
     }
 }
