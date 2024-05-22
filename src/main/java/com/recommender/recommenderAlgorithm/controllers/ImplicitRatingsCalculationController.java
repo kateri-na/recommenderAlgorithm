@@ -13,7 +13,7 @@ public class ImplicitRatingsCalculationController {
     public ImplicitRatingsCalculationController(ImplicitRatingsCalculation calculation) {
         this.calculation = calculation;
     }
-    @GetMapping("/refresh")
+    @GetMapping("/implicit")
     public ResponseEntity<Void> getRatings(){
         calculation.Calculation();
         return ResponseEntity.noContent().build();
