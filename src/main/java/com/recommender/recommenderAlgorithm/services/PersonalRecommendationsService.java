@@ -1,5 +1,6 @@
 package com.recommender.recommenderAlgorithm.services;
 
+import com.recommender.recommenderAlgorithm.models.NormalizedRatings;
 import com.recommender.recommenderAlgorithm.models.Ratings;
 import com.recommender.recommenderAlgorithm.models.Similarities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,15 @@ public class PersonalRecommendationsService {
     private final RatingsService ratingsService;
     private final UserService userService;
     private final SimilarityService similarityService;
+    private final NormalizedRatingsService normalizedRatingsService;
     @Autowired
     public PersonalRecommendationsService(RatingsService ratingsService, UserService userService,
-                                          SimilarityService similarityService) {
+                                          SimilarityService similarityService,
+                                          NormalizedRatingsService normalizedRatingsService) {
         this.ratingsService = ratingsService;
         this.userService = userService;
         this.similarityService = similarityService;
+        this.normalizedRatingsService = normalizedRatingsService;
     }
     public List<Ratings> predictedRatings(){
         List<Ratings> predictedRatings = new LinkedList<Ratings>();
@@ -50,8 +54,12 @@ public class PersonalRecommendationsService {
             averageRating = calculateAverage(userRatings);
             for(Ratings rating :userRatings){
                 if(rating.getRatingValue() != 0) {
-                    ratingsService.updateRating(rating.getUserId(), rating.getSerialId(),
+                    //ratingsService.updateRating(rating.getUserId(), rating.getSerialId(),rating.getRatingValue() - averageRating);
+                    normalizedRatingsService.addNormalizedRating(rating.getUserId(), rating.getSerialId(),
                             rating.getRatingValue() - averageRating);
+                }
+                else{
+                    normalizedRatingsService.addNormalizedRating(rating.getUserId(), rating.getSerialId(), 0.0);
                 }
             }
         }
