@@ -18,18 +18,9 @@ public class PersonalRecommendationsController {
     public PersonalRecommendationsController(PersonalRecommendationsService personalRecommendationsService) {
         this.personalRecommendationsService = personalRecommendationsService;
     }
-    @GetMapping("/normalize")
-    public ResponseEntity<Void> getRatings(){
-        personalRecommendationsService.normalizeRatings();
-        return ResponseEntity.noContent().build();
+    @GetMapping("/algorithm")
+    public List<Ratings> getRatings(){
+        return personalRecommendationsService.algorithm();
     }
-    @GetMapping("/similarity")
-    public ResponseEntity<Void> getRating(){
-        personalRecommendationsService.calculateSimilarity();
-        return ResponseEntity.noContent().build();
-    }
-    @GetMapping("/predictions")
-    public List<Ratings> getPredictedRatings(){
-        return personalRecommendationsService.predictedRatings();
-    }
+
 }
