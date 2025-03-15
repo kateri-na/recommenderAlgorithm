@@ -3,10 +3,11 @@ package com.recommender.recommenderAlgorithm.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "userr")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "userr_seq")
+    @SequenceGenerator(name = "userr_seq", sequenceName = "userr_seq", allocationSize = 1)
     private Long id;
     private String userSurname;
     private String userName;

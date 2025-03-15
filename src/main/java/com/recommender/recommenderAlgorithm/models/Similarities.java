@@ -2,11 +2,12 @@ package com.recommender.recommenderAlgorithm.models;
 
 import jakarta.persistence.*;
 
-@Table
+@Table(name = "similarities")
 @Entity
 public class Similarities {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "similarities_seq")
+    @SequenceGenerator(name = "similarities_seq", sequenceName = "similarities_seq", allocationSize = 1)
     private Long id;
     private Integer serialRowId;
     private Integer serialColumnId;

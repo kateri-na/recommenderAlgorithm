@@ -2,11 +2,12 @@ package com.recommender.recommenderAlgorithm.models;
 
 import jakarta.persistence.*;
 
-@Table
+@Table(name = "normalizedRatings")
 @Entity
 public class NormalizedRatings {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "normalizedratings_seq")
+    @SequenceGenerator(name = "normalizedratings_seq", sequenceName = "normalizedratings_seq", allocationSize = 1)
     private Long id;
     private Long userId;
     private Long serialId;

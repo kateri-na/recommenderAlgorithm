@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 
 import java.util.List;
 @Entity
-@Table
+@Table(name = "serial")
 public class Serial {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "serial_seq")
+    @SequenceGenerator(name = "serial_seq", sequenceName = "serial_seq", allocationSize = 1)
     private Long id;
     private String serialName;
     private Integer seasonsNumber;

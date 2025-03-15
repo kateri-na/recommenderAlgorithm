@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "ratings")
 public class Ratings {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ratings_seq")
+    @SequenceGenerator(name = "ratings_seq", sequenceName = "ratings_seq", allocationSize = 1)
     private Long id;
     private Long userId;
     private Long serialId;
