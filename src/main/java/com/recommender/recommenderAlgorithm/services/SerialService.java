@@ -3,6 +3,7 @@ package com.recommender.recommenderAlgorithm.services;
 import com.recommender.recommenderAlgorithm.models.Serial;
 import com.recommender.recommenderAlgorithm.repositories.SerialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class SerialService {
         this.serialRepository = serialRepository;
     }
     public List<Serial> getSerials(){
-        return serialRepository.findAll();
+        return serialRepository.findAll(Sort.by("serialName"));
     }
     public Serial getById(Long id){
         return serialRepository.findById(id).get();
