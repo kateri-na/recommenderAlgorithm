@@ -1,16 +1,13 @@
 package com.recommender.recommenderAlgorithm.controllers;
 
-import com.recommender.recommenderAlgorithm.models.Serial;
 import com.recommender.recommenderAlgorithm.services.SerialService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @Controller
 @RequestMapping(path="api/serials")
@@ -20,13 +17,16 @@ public class SerialController {
     public SerialController(SerialService serialService) {
         this.serialService = serialService;
     }
-//    @GetMapping
-//    public List<Serial> getSerials(){
-//        return serialService.getSerials();
-//    }
+
     @GetMapping()
     public String getAllSerials(Model model){
         model.addAttribute("serials", serialService.getSerials());
         return "serialsPage";
+    }
+
+    @GetMapping("/{id}")
+    public String getCurrentSerial(@PathVariable("id") int id, Model model){
+        model.addAttribute("serial", serialService.getById((long)id));
+        return "serialInfoPage";
     }
 }
