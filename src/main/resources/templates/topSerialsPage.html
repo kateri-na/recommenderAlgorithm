@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Топ-3 сериала</title>
+    <style>
+        body {
+            background-image: url('/images/background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            font-style: italic;
+            text-align: center;
+            text-shadow:
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px  2px 0 #000,
+                2px  2px 0 #000;
+            color: #fffacd;
+        }
+    </style>
+</head>
+<body>
+<h1 style="font-size: 35px; letter-spacing: 2px; font-weight: bold;">Топ - 3 сериала</h1>
+<hr>
+<div th:each="topSerial : ${topSerials}">
+    <br>
+    <a style="color: #fffacd; font-size: 35px;"
+       th:href="@{/serials/{id}(id = ${topSerial.getId()})}"
+       th:text="${topSerial.getSerialName()}"></a>
+</div>
+</body>
+</html>
