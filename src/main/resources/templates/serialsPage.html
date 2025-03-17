@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сериалы</title>
+  <style>
+    body {
+        background-image: url('/images/background.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-style: italic;
+        text-align: center;
+        text-shadow:
+            -2px -2px 0 #000,
+            2px -2px 0 #000,
+            -2px  2px 0 #000,
+            2px  2px 0 #000;
+        color: #fffacd;
+    }
+  </style>
+</head>
+<body>
+<div th:each="serial : ${serials}">
+    <br>
+  <a style="color: #fffacd; font-size: 35px;" th:href="@{/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
+</div>
+</body>
+</html>
