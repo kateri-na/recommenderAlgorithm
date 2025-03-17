@@ -23,7 +23,7 @@
 <body>
 <div th:each="serial : ${serials}">
     <br>
-  <a style="color: #fffacd; font-size: 35px;" th:href="@{/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
+  <a style="color: #fffacd; font-size: 35px;" th:href="@{/api/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
 </div>
 </body>
 </html>

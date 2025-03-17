@@ -26,7 +26,7 @@
 <div th:each="topSerial : ${topSerials}">
     <br>
     <a style="color: #fffacd; font-size: 35px;"
-       th:href="@{/serials/{id}(id = ${topSerial.getId()})}"
+       th:href="@{/api/serials/{id}(id = ${topSerial.getId()})}"
        th:text="${topSerial.getSerialName()}"></a>
 </div>
 </body>
