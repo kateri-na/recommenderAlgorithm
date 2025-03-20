@@ -29,4 +29,8 @@ public class SerialController {
         model.addAttribute("serial", serialService.getById((long)id));
         return "serialInfoPage";
     }
+    @GetMapping("/watchEpisode")
+    public String watchEpisodeOfSerial(){
+        return "viewEpisodePage";
+    }
 }
