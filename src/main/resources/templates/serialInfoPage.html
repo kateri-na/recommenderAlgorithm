@@ -3,8 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Подробнее о сериале</title>
+    <style>
+        body {
+            background-image: url('/images/background-darken.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            font-weight: 900;
+            text-shadow:
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px  2px 0 #000,
+                2px  2px 0 #000;
+             color: #FFA07A;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleSeasonsAndDuration() {
+            if (seasonsAndDuration.style.display === "none" || seasonsAndDuration.style.display === "") {
+                seasonsAndDuration.style.display = "block";
+            } else {
+                seasonsAndDuration.style.display = "none";
+            }
+        }
+
+        function toggleDescription() {
+            if (description.style.display === "none" || description.style.display === "") {
+                description.style.display = "block";
+            } else {
+                description.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
-<p th:text="${serial.getSerialName()} + ', ' + ${serial.getSeasonsNumber()} + ', ' + ${serial.getGenres()}">Info</p>
+<h1 th:text="${serial.getSerialName()}">Title</h1>
+<hr>
+<p style="text-decoration: underline">Жанры:</p>
+<div th:each="genre : ${serial.getGenres()}">
+    <p th:text="${genre}">
+</div>
+
+<button onclick="toggleSeasonsAndDuration()">Узнать число сезонов и продолжительность серии</button>
+
+<div id="seasonsAndDuration" class="hidden" style="display: none;">
+    <p>Число сезонов: <span th:text="${serial.getSeasonsNumber()}">Число сезонов отсутствует</span></p>
+    <p>Продолжительность серии: <span th:text="${serial.getEpisodeDuration()}">Продолжительность серии отсутствует</span> мин</p>
+</div>
+<br>
+
+<button onclick="toggleDescription()">Посмотреть описание</button>
+
+<div id="description" class="hidden" style="display: none;">
+    <span th:text="${serial.getDescription()}">Число сезонов отсутствует</span>
+</div>
+<br>
+
+<button type="button" onclick="location.href='/api/serials/watchEpisode'" class="btn btn-primary">Смотреть эпизод</button>
+<hr>
+<p>Смотрели сериал? Оцените</p>
+<label title="mark">По шкале от 1 до 10:</label>
+<input type="text" id="mark"/>
+<br>
+<input type="submit" value="Оценить!">
 </body>
 </html>
