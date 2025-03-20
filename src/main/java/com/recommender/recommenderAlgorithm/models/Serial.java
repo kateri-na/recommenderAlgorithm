@@ -14,14 +14,16 @@ public class Serial {
     private Integer seasonsNumber;
     private Integer episodeDuration;
     private List<String> genres;
+    private String description;
 
     public Serial(){}
 
-    public Serial(String serialName, Integer seasonsNumber, Integer episodeDuration, List<String> genres) {
+    public Serial(String serialName, Integer seasonsNumber, Integer episodeDuration, List<String> genres, String description) {
         this.serialName = serialName;
         this.seasonsNumber = seasonsNumber;
         this.episodeDuration = episodeDuration;
         this.genres = genres;
+        this.description = description;
     }
 
     public Long getId() {
@@ -62,6 +64,14 @@ public class Serial {
 
     public void setGenres(List<String> genres) {
         this.genres = genres;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
