@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Топ-3 сериала</title>
+    <title>Просмотр серии</title>
     <style>
         body {
             background-image: url('/images/background.jpg');
@@ -16,17 +16,11 @@
                 -2px  2px 0 #000,
                 2px  2px 0 #000;
             color: #FFA07A;
+            font-size: 50px;
         }
     </style>
 </head>
 <body>
-<h1 style="font-size: 35px; letter-spacing: 2px; font-weight: bold;">Топ - 3 сериала</h1>
-<hr>
-<div th:each="topSerial : ${topSerials}">
-    <br>
-    <a style="color: #FFA07A; font-size: 35px;"
-       th:href="@{/api/serials/{id}(id = ${topSerial.getId()})}"
-       th:text="${topSerial.getSerialName()}"></a>
-</div>
+<p>Вы перенаправляетесь на просмотр серии</p>
 </body>
 </html>

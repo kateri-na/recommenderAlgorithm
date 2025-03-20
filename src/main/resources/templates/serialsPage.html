@@ -9,21 +9,21 @@
         background-size: cover;
         background-attachment: fixed;
         background-repeat: no-repeat;
-        font-style: italic;
         text-align: center;
         text-shadow:
             -2px -2px 0 #000,
             2px -2px 0 #000,
             -2px  2px 0 #000,
             2px  2px 0 #000;
-        color: #fffacd;
+        color: #FFA07A;
+
     }
   </style>
 </head>
 <body>
 <div th:each="serial : ${serials}">
     <br>
-  <a style="color: #fffacd; font-size: 35px;" th:href="@{/api/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
+  <a style="color: #FFA07A; font-size: 35px;" th:href="@{/api/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
 </div>
 </body>
 </html>
