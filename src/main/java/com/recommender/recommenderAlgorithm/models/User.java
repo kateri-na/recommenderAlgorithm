@@ -1,6 +1,12 @@
 package com.recommender.recommenderAlgorithm.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "userr")
@@ -13,6 +19,15 @@ public class User {
     private String userName;
     private String userMiddleName;
     private String email;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public User() {}
     public User(Long id, String userSurname, String userName, String userMiddleName, String email) {
@@ -77,6 +92,7 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", userMiddleName='" + userMiddleName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
