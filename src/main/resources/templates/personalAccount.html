@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный профиль</title>
+  <style>
+    body {
+        background-image: url('/images/background.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-weight: 900;
+        text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px  1px 0 #000,
+            1px  1px 0 #000;
+         color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добро пожаловать в личный кабинет, <span th:text = "${currentUser.getUserName()}"></span></h1>
+  <hr>
+  <p>Информация о пользователе:</p>
+  <p>Фамилия: <span th:text = "${currentUser.getUserSurname()}"></span></p>
+  <p>Имя: <span th:text = "${currentUser.getUserName()}"></span></p>
+  <p>Отчество: <span th:text = "${currentUser.getUserMiddleName()}"></span></p>
+  <hr>
+  <button style="color: #000000" type="button" onclick="location.href='/api'" class="btn btn-primary">Вернуться на стартовую страницу</button>
+  <br>
+  <button style="color: #000000">Получить рекомендацию</button>
+  <form th:method = "GET" th:action="@{/users/edit}">
+    <input style="color: #000000" type="submit" value="Редактировать">
+  </form>
+  <hr>
+<a style="color: #ffffff" href="/logout">Выйти из личного кабинета</a>
+</body>
+</html>
