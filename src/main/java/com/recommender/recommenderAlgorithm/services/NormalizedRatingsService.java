@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NormalizedRatingsService {
@@ -22,6 +23,16 @@ public class NormalizedRatingsService {
     public void addNormalizedRating(Long userId, Long serialId, Double rating){
         NormalizedRatings normalizedRating = new NormalizedRatings(userId, serialId, rating);
         normalizedRatingsRepository.save(normalizedRating);
+    }
+    public void updateNormalizedRating(Long normalizedRatingId, double value) {
+        Optional<NormalizedRatings> normalizedRatings = normalizedRatingsRepository.findById(normalizedRatingId);
+        if(normalizedRatings.isPresent()) {
+            normalizedRatings.get().setRatingValue(value);
+            normalizedRatingsRepository.save(normalizedRatings.get());
+        }else throw new RuntimeException("updated rating not found");
+    }
+    public Optional<NormalizedRatings> findExistingRating(Long userId, Long serialId){
+        return normalizedRatingsRepository.findByUserIdAndSerialId(userId, serialId);
     }
     public List<NormalizedRatings> getAllSerialRatings(Long serialId){
         return normalizedRatingsRepository.findAllBySerialId(serialId);

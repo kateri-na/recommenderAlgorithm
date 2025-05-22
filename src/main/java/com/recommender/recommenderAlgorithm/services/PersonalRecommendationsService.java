@@ -6,8 +6,10 @@ import com.recommender.recommenderAlgorithm.models.Similarities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonalRecommendationsService {
@@ -48,18 +50,20 @@ public class PersonalRecommendationsService {
 
     private void normalizeRatings(){
         List<Integer> usersIds = userService.getUsersIds();
+        Collections.sort(usersIds);
         double averageRating = 0.0;
         for(int i =0; i<usersIds.size(); ++i){
             List<Ratings> userRatings = ratingsService.getAllUserRatings(usersIds.get(i).longValue());
             averageRating = calculateAverage(userRatings);
             for(Ratings rating :userRatings){
-                if(rating.getRatingValue() != 0) {
+                Optional<NormalizedRatings> findingRating = normalizedRatingsService.
+                        findExistingRating(rating.getUserId(), rating.getSerialId());
+                if(findingRating.isEmpty())
                     normalizedRatingsService.addNormalizedRating(rating.getUserId(), rating.getSerialId(),
-                            rating.getRatingValue() - averageRating);
-                }
-                else{
-                    normalizedRatingsService.addNormalizedRating(rating.getUserId(), rating.getSerialId(), 0.0);
-                }
+                        Double.compare(rating.getRatingValue(), 0.0) == 0 ? 0.0 : rating.getRatingValue() - averageRating);
+                else
+                    normalizedRatingsService.updateNormalizedRating(findingRating.get().getId(),
+                            Double.compare(rating.getRatingValue(), 0.0) == 0 ? 0.0 : rating.getRatingValue() - averageRating);
             }
         }
     }
