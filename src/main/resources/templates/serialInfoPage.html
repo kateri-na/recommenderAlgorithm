@@ -15,7 +15,7 @@
                 1px -1px 0 #000,
                 -1px  1px 0 #000,
                 1px  1px 0 #000;
-             color: #FFA07A;
+             color: #ffffff;
         }
         .hidden{
             display: none;
@@ -47,7 +47,7 @@
     <p th:text="${genre}">
 </div>
 
-<button onclick="toggleSeasonsAndDuration()">Узнать число сезонов и продолжительность серии</button>
+<button style="color: #000000" onclick="toggleSeasonsAndDuration()">Узнать число сезонов и продолжительность серии</button>
 
 <div id="seasonsAndDuration" class="hidden" style="display: none;">
     <p>Число сезонов: <span th:text="${serial.getSeasonsNumber()}">Число сезонов отсутствует</span></p>
@@ -55,19 +55,19 @@
 </div>
 <br>
 
-<button onclick="toggleDescription()">Посмотреть описание</button>
+<button style="color: #000000" onclick="toggleDescription()">Посмотреть описание</button>
 
 <div id="description" class="hidden" style="display: none;">
     <span th:text="${serial.getDescription()}">Число сезонов отсутствует</span>
 </div>
 <br>
 
-<button type="button" onclick="location.href='/api/serials/watchEpisode'" class="btn btn-primary">Смотреть эпизод</button>
+<button style="color: #000000" type="button" onclick="location.href='/api/serials/watchEpisode'" class="btn btn-primary">Смотреть эпизод</button>
 <hr>
 <p>Смотрели сериал? Оцените</p>
 <label title="mark">По шкале от 1 до 10:</label>
 <input type="text" id="mark"/>
 <br>
-<input type="submit" value="Оценить!">
+<input style="color: #000000" type="submit" value="Оценить!">
 </body>
 </html>

@@ -15,7 +15,7 @@
                 1px -1px 0 #000,
                 -1px  1px 0 #000,
                 1px  1px 0 #000;
-            color: #FFA07A;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -24,7 +24,7 @@
 <hr>
 <div th:each="topSerial : ${topSerials}">
     <br>
-    <a style="color: #FFA07A; font-size: 35px;"
+    <a style="color: #ffffff; font-size: 35px;"
        th:href="@{/api/serials/{id}(id = ${topSerial.getId()})}"
        th:text="${topSerial.getSerialName()}"></a>
 </div>

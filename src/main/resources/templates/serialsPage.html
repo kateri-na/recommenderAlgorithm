@@ -15,7 +15,7 @@
         1px -1px 0 #000,
         -1px  1px 0 #000,
         1px  1px 0 #000;
-        color: #FFA07A;
+        color: #ffffff;
 
     }
   </style>
@@ -23,7 +23,7 @@
 <body>
 <div th:each="serial : ${serials}">
     <br>
-  <a style="color: #FFA07A; font-size: 35px;" th:href="@{/api/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
+  <a style="color: #ffffff; font-size: 35px;" th:href="@{/api/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
 </div>
 </body>
 </html>
