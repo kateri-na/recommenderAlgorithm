@@ -20,10 +20,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
+    private final CustomAuthenticationSuccessHandler successHandler;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService, CustomAuthenticationSuccessHandler successHandler) {
         this.userDetailsService = userDetailsService;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -36,7 +38,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> request.requestMatchers("api/users/personalAccount/**").authenticated());
         http.authorizeHttpRequests(request -> request.anyRequest().permitAll());
-        http.formLogin(Customizer.withDefaults());
+        http.formLogin(form -> form.loginPage("/login").successHandler(successHandler).permitAll());
         return http.build();
     }
 

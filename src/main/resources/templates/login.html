@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в систему</title>
+  <style>
+    body {
+        background-image: url('/images/background.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-weight: 900;
+        text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px  1px 0 #000,
+            1px  1px 0 #000;
+         color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<h1>Войдите в систему</h1>
+<hr>
+<form action="/login" method="post">
+  <div>
+    <label for="username">Введите логин:</label>
+    <input type="text" id="username" name="username" required>
+  </div>
+  <div>
+    <label for="password">Введите пароль:</label>
+    <input type="password" id="password" name="password" required>
+  </div>
+  <button style="color: #F000000" type="submit">Войти</button>
+</form>
+<hr>
+<a style="color: #ffffff" href="/api">Вернуться на стартовую страницу</a>
+</body>
+</html>
