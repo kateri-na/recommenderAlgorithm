@@ -18,6 +18,15 @@
          color: #ffffff;
     }
   </style>
+  <script>
+    function toggleRecommendations() {
+            if (recommendations.style.display === "none" || recommendations.style.display === "") {
+                recommendations.style.display = "block";
+            } else {
+                recommendations.style.display = "none";
+            }
+    }
+  </script>
 </head>
 <body>
   <h1>Добро пожаловать в личный кабинет, <span th:text = "${currentUser.getUserName()}"></span></h1>
@@ -29,7 +38,14 @@
   <hr>
   <button style="color: #000000" type="button" onclick="location.href='/api'" class="btn btn-primary">Вернуться на стартовую страницу</button>
   <br>
-  <button style="color: #000000">Получить рекомендацию</button>
+  <button style="color: #000000" type="button" onclick="toggleRecommendations()">Получить рекомендацию</button>
+  <div id="recommendations" style="display: none;"> <!-- Блок для рекомендаций, скрыт по умолчанию -->
+    <ul>
+      <div th:each="serial : ${recommendations}">
+        <a style="color: #ffffff;" th:href="@{/api/serials/{id}(id = ${serial.getId()})}" th:text="${serial.getSerialName()}">serial</a>
+      </div>
+    </ul>
+  </div>
   <form th:method = "GET" th:action="@{/users/edit}">
     <input style="color: #000000" type="submit" value="Редактировать">
   </form>

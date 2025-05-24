@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SimilarityService {
@@ -20,6 +21,16 @@ public class SimilarityService {
     public void addSimilarity(Integer serialRowId, Integer serialColumnId, Double similarity){
         Similarities similarities = new Similarities(serialRowId, serialColumnId, similarity);
         similarityRepository.save(similarities);
+    }
+    public Optional<Similarities> findExistedSimilarity(Long serialRowId, Long serialColumnId){
+        return similarityRepository.findBySerialRowIdAndSerialColumnId(serialRowId, serialColumnId);
+    }
+    public void updateSimilarity(Long similarityId, double value){
+        Optional<Similarities> findingSimilarity = similarityRepository.findById(similarityId);
+        if (findingSimilarity.isPresent()){
+            findingSimilarity.get().setSimilarity(value);
+            similarityRepository.save(findingSimilarity.get());
+        }else  throw new RuntimeException("Modified similarity not found");
     }
      public List<Similarities> getNeighborhood(Long serialId, double similarityConstraint){
         return similarityRepository.findAllGreaterThanConstraint(serialId,similarityConstraint);

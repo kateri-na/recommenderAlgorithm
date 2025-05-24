@@ -2,14 +2,12 @@ package com.recommender.recommenderAlgorithm.services;
 
 import com.recommender.recommenderAlgorithm.models.NormalizedRatings;
 import com.recommender.recommenderAlgorithm.models.Ratings;
+import com.recommender.recommenderAlgorithm.models.Serial;
 import com.recommender.recommenderAlgorithm.models.Similarities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonalRecommendationsService {
@@ -17,14 +15,17 @@ public class PersonalRecommendationsService {
     private final UserService userService;
     private final SimilarityService similarityService;
     private final NormalizedRatingsService normalizedRatingsService;
+    private final SerialService serialService;
     @Autowired
     public PersonalRecommendationsService(RatingsService ratingsService, UserService userService,
                                           SimilarityService similarityService,
-                                          NormalizedRatingsService normalizedRatingsService) {
+                                          NormalizedRatingsService normalizedRatingsService,
+                                          SerialService serialService) {
         this.ratingsService = ratingsService;
         this.userService = userService;
         this.similarityService = similarityService;
         this.normalizedRatingsService = normalizedRatingsService;
+        this.serialService = serialService;
     }
     private List<Ratings> predictedRatings(){
         List<Ratings> predictedRatings = new LinkedList<Ratings>();
@@ -43,7 +44,11 @@ public class PersonalRecommendationsService {
             for(Integer j = i+1; j<=10; ++j) {
                 List<NormalizedRatings> column1 = normalizedRatingsService.getAllSerialRatings(i.longValue());
                 List<NormalizedRatings> column2 = normalizedRatingsService.getAllSerialRatings(j.longValue());
-                similarityService.addSimilarity(i, j, similarityFormula(column1, column2));
+                Optional<Similarities> similarity = similarityService.findExistedSimilarity(i.longValue(), j.longValue());
+                if(similarity.isPresent())
+                    similarityService.updateSimilarity(similarity.get().getId(), similarityFormula(column1, column2));
+                else
+                    similarityService.addSimilarity(i, j, similarityFormula(column1, column2));
             }
         }
     }
@@ -113,5 +118,13 @@ public class PersonalRecommendationsService {
         normalizeRatings();
         calculateSimilarity();
         return predictedRatings();
+    }
+    public List<Serial> recommendationsForCertainUser(Long userId){
+        List<Ratings> predictedRatings = algorithm().stream().filter(el -> el.getUserId().equals(userId)).toList();
+        List<Serial> recommendedSerials = new ArrayList<>();
+        for(Ratings rating:predictedRatings){
+            recommendedSerials.add(serialService.getById(rating.getSerialId()));
+        }
+        return recommendedSerials;
     }
 }
