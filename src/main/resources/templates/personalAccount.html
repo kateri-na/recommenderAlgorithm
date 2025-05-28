@@ -26,6 +26,10 @@
                 recommendations.style.display = "none";
             }
     }
+    function toggleEditForm() {
+        const editForm = document.getElementById("editForm");
+        editForm.style.display = editForm.style.display === "none" || editForm.style.display === "" ? "block" : "none";
+    }
   </script>
 </head>
 <body>
@@ -46,9 +50,38 @@
       </div>
     </ul>
   </div>
-  <form th:method = "GET" th:action="@{/users/edit}">
-    <input style="color: #000000" type="submit" value="Редактировать">
-  </form>
+  <br>
+  <button style="color: #000000" type="button" onclick="toggleEditForm()">Редактировать</button>
+
+  <div id="editForm" style="display: none;">
+    <form th:action="@{/api/users/edit}" th:method="post">
+      <label>Фамилия:</label>
+      <input type="text" name="surname" th:value="${currentUser.getUserSurname()}" required>
+      <br>
+      <label>Имя:</label>
+      <input type="text" name="name" th:value="${currentUser.getUserName()}" required>
+      <br>
+      <label>Отчество:</label>
+      <input type="text" name="middleName" th:value="${currentUser.getUserMiddleName()}" required>
+      <br>
+      <label>Новая почта:</label>
+      <input type="email" name="email">
+      <br>
+      <label>Текущий пароль:</label>
+      <input type="password" name="oldPassword" required>
+      <br>
+      <label>Новый пароль:</label>
+      <input type="password" name="newPassword">
+      <br>
+      <label>Повторите новый пароль:</label>
+      <input type="password" name="confirmNewPassword">
+      <br>
+      <input type="submit" value="Сохранить изменения">
+    </form>
+  </div>
+  <div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+  </div>
   <hr>
 <a style="color: #ffffff" href="/logout">Выйти из личного кабинета</a>
 </body>

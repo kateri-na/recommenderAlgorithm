@@ -1,4 +1,7 @@
 package com.recommender.recommenderAlgorithm.services;
+import com.recommender.recommenderAlgorithm.security.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.recommender.recommenderAlgorithm.models.User;
 import com.recommender.recommenderAlgorithm.repositories.UserRepository;
@@ -13,7 +16,14 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((UserDetails)authentication.getPrincipal()).getUser();
+        return userRepository.findById(currentUser.getId()).orElse(null);
+    }
+    public void save(User user) {
+        userRepository.save(user);
+    }
     public List<User> getUsers(){
         return userRepository.findAll();
     }
