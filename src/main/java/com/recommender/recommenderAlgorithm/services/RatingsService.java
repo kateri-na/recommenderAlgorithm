@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RatingsService {
@@ -32,5 +33,12 @@ public class RatingsService {
                         ("rating of "+userId+" user for serial "+serialID+" doesn't exist"));
         ratings.setRatingValue(value);
         ratingsRepository.save(ratings);
+    }
+    public void rateSerial(Long userId, Long serialId, Double value){
+        Optional<Ratings> ratings = ratingsRepository.findByUserIdAndSerialId(userId, serialId);
+        if(ratings.isPresent())
+            updateRating(userId, serialId, value);
+        else
+            ratingsRepository.save(new Ratings(userId, serialId, value));
     }
 }

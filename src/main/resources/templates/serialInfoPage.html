@@ -20,6 +20,9 @@
         .hidden{
             display: none;
         }
+        .error {
+            color: red;
+        }
     </style>
     <script>
         function toggleSeasonsAndDuration() {
@@ -35,6 +38,19 @@
                 description.style.display = "block";
             } else {
                 description.style.display = "none";
+            }
+        }
+        function validateAndSubmit() {
+            const markInput = document.getElementById('mark');
+            const mark = parseFloat(markInput.value);
+            const errorMessage = document.getElementById('error-message');
+
+            if (isNaN(mark) || mark < 0 || mark > 10) {
+                errorMessage.textContent = "Пожалуйста, введите оценку от 0 до 10.";
+                return false; // Не отправляем форму
+            } else {
+                errorMessage.textContent = ""; // Очищаем сообщение об ошибке
+                return true; // Отправляем форму
             }
         }
     </script>
@@ -54,7 +70,6 @@
     <p>Продолжительность серии: <span th:text="${serial.getEpisodeDuration()}">Продолжительность серии отсутствует</span> мин</p>
 </div>
 <br>
-
 <button style="color: #000000" onclick="toggleDescription()">Посмотреть описание</button>
 
 <div id="description" class="hidden" style="display: none;">
@@ -63,11 +78,18 @@
 <br>
 
 <button style="color: #000000" type="button" onclick="location.href='/api/serials/watchEpisode'" class="btn btn-primary">Смотреть эпизод</button>
-<hr>
-<p>Смотрели сериал? Оцените</p>
-<label title="mark">По шкале от 1 до 10:</label>
-<input type="text" id="mark"/>
-<br>
-<input style="color: #000000" type="submit" value="Оценить!">
+<div th:if="${isAuthenticated}">
+    <hr>
+    <p>Смотрели сериал? Оцените</p>
+    <form th:action="@{/api/ratings}" method="post" onsubmit="return validateAndSubmit();">
+    <label title="mark">По шкале от 1 до 10:</label>
+    <input type="text" id="mark" name="mark" required/>
+    <input type="hidden" name="serialId" th:value="${serial.getId()}"/>
+    <br>
+    <span id="error-message" class="error"></span>
+    <br>
+    <input style="color: #000000" type="submit" value="Оценить!">
+    </form>
+</div>
 </body>
 </html>
