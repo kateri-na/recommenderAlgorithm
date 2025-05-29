@@ -29,5 +29,5 @@ public class LogService {
     public List<Integer> getDistinctUsersIds(){
         return logRepository.findDistinctByUserId();
     }
-
+    public void save(Log log){ logRepository.save(log);}
 }

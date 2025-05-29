@@ -25,20 +25,46 @@
         }
     </style>
     <script>
+        function logEvent(event) {
+            const serialId = document.getElementById('serialId').value;
+            fetch('/api/log', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'serialId': serialId,
+                    'event': event
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    console.error('Ошибка при логировании события:', response.statusText);
+                }
+            }).catch(error => {
+                console.error('Ошибка при отправке запроса:', error);
+            });
+        }
         function toggleSeasonsAndDuration() {
+            const seasonsAndDuration = document.getElementById('seasonsAndDuration');
             if (seasonsAndDuration.style.display === "none" || seasonsAndDuration.style.display === "") {
                 seasonsAndDuration.style.display = "block";
+                logEvent('просмотр количества сезонов и серий');
             } else {
                 seasonsAndDuration.style.display = "none";
             }
         }
-
         function toggleDescription() {
+            const description = document.getElementById('description');
             if (description.style.display === "none" || description.style.display === "") {
                 description.style.display = "block";
+                logEvent('просмотр описания');
             } else {
                 description.style.display = "none";
             }
+        }
+        function watchEpisode() {
+            logEvent('просмотр серии');
+            location.href = '/api/serials/watchEpisode';
         }
         function validateAndSubmit() {
             const markInput = document.getElementById('mark');
@@ -47,10 +73,10 @@
 
             if (isNaN(mark) || mark < 0 || mark > 10) {
                 errorMessage.textContent = "Пожалуйста, введите оценку от 0 до 10.";
-                return false; // Не отправляем форму
+                return false;
             } else {
-                errorMessage.textContent = ""; // Очищаем сообщение об ошибке
-                return true; // Отправляем форму
+                errorMessage.textContent = "";
+                return true;
             }
         }
     </script>
@@ -62,7 +88,7 @@
 <div th:each="genre : ${serial.getGenres()}">
     <p th:text="${genre}">
 </div>
-
+<input type="hidden" id="serialId" th:value="${serial.getId()}"/>
 <button style="color: #000000" onclick="toggleSeasonsAndDuration()">Узнать число сезонов и продолжительность серии</button>
 
 <div id="seasonsAndDuration" class="hidden" style="display: none;">
@@ -77,7 +103,7 @@
 </div>
 <br>
 
-<button style="color: #000000" type="button" onclick="location.href='/api/serials/watchEpisode'" class="btn btn-primary">Смотреть эпизод</button>
+<button style="color: #000000" type="button" onclick="watchEpisode()" class="btn btn-primary">Смотреть эпизод</button>
 <div th:if="${isAuthenticated}">
     <hr>
     <p>Смотрели сериал? Оцените</p>
