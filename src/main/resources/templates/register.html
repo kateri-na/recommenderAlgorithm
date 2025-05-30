@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация</title>
+  <style>
+    body {
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px  1px 0 #000,
+        1px  1px 0 #000;
+    color: #ffffff;
+    font-size: 20px;
+    }
+    .large-button {
+    width: 200px;
+    height: 30px;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #9ACD32; /* Цвет фона */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Закругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    }
+  </style>
+</head>
+<body>
+<h1>Регистрация нового пользователя</h1>
+<hr>
+<form action="/register" method="post">
+  <div>
+    <label for="firstName">Имя:</label>
+    <input type="text" id="firstName" name="firstName" required>
+  </div>
+  <div>
+    <label for="lastName">Фамилия:</label>
+    <input type="text" id="lastName" name="lastName" required>
+  </div>
+  <div>
+    <label for="middleName">Отчество:</label>
+    <input type="text" id="middleName" name="middleName" required>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+  </div>
+  <div>
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password" required>
+  </div>
+  <div>
+    <label for="confirmPassword">Подтвердите пароль:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required>
+  </div>
+  <button class="large-button" type="submit">Зарегистрироваться</button>
+</form>
+<hr>
+<a style="color: #ffffff" href="/login">Уже есть аккаунт? Войти</a>
+
+<!-- Отображение ошибок -->
+<div th:if="${error}" style="color: red;">
+  <p th:text="${error}"></p>
+</div>
+</body>
+</html>
